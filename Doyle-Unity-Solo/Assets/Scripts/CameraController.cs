@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float MouseSpeed = 2;
+    public float mouseSpeed = 2;
     //public Rigidbody rb;
 
 
@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
 
-        float lookV = MouseSpeed * Input.GetAxis("Mouse Y");
+        float lookV = mouseSpeed * Input.GetAxis("Mouse Y");
 
 
         transform.Rotate(-lookV, 0, 0);
