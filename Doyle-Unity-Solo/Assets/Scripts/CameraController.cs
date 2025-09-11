@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
         float lookV = mouseSpeed * Input.GetAxis("Mouse Y");
 
 
-        transform.Rotate(-lookV, 0, 0);
+    //    transform.Rotate(-lookV, 0, 0);
 
     }
 

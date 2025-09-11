@@ -1,10 +1,19 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     //Mouse Controls
-    public float mouseSpeed = 2f;
+    public float Xsensitivity = 2f;
+    public float Ysensitivity = 2f;
+    InputAction lookVector;
+    Camera playerCamera;
+    Vector2 cameraRotation;
+    public float lookClamp = 90f;
+    Transform camHolder;
+
+
 
     //Movement
     public float Speed = 10f;
@@ -16,13 +25,28 @@ public class PlayerController : MonoBehaviour
     //Jumping
     public float jumpForce = 10f;
     private bool isGrounded;
-    public int jumpsRem = 2;
+    private int jumpsRem;
+    public int baseJumps;
 
+    //Wall Ride
+    public bool onWall = false;
+    public float wallDrag;
 
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+
+
+        //Camera
+        lookVector = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
+        playerCamera = Camera.main;
+        cameraRotation = Vector2.zero;
+        camHolder = transform.GetChild(0);
+
+
+        //Jumps
+        jumpsRem = baseJumps;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -37,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //lock cursor
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -48,8 +73,11 @@ public class PlayerController : MonoBehaviour
         {
             if (jumpsRem > 0)
             {
-                Rb.AddForce(jumpForce * transform.up * 10);
-                jumpsRem--;
+                if (isGrounded || onWall)
+                {
+                    Rb.AddForce(jumpForce * transform.up * 10);
+                    jumpsRem--;
+                }
             }
         }
        
@@ -62,12 +90,20 @@ public class PlayerController : MonoBehaviour
 
         Rb.linearVelocity = (temp.x * transform.forward) + (temp.y * transform.up) + (temp.z * transform.right);
 
-            //Look at me go dad
-        float lookH = mouseSpeed * Input.GetAxis("Mouse X");
-        transform.Rotate(0, lookH, 0);
+        if (onWall == true)
+        {
+            Rb.AddForce(-wallDrag * transform.up * 5);
+        }
 
+        //Look at me go dad
+        cameraRotation.y += lookVector.ReadValue<Vector2>().y * Ysensitivity;
+        cameraRotation.x += lookVector.ReadValue<Vector2>().x * Xsensitivity;
 
-        
+        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -lookClamp, lookClamp);
+
+        playerCamera.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
+        transform.localRotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -75,24 +111,36 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             isGrounded = true;
-            jumpsRem = 2;
+            jumpsRem = baseJumps;
         }
         if (collision.gameObject.tag == "Wall")
         {
-            Rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-            jumpsRem = 2;
+            onWall = true;
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-        {
-            Rb.constraints ^= RigidbodyConstraints.FreezePositionY;
-        }
         
         if (collision.gameObject.tag == "Floor")
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            onWall = true;
+            jumpsRem = baseJumps;
+
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            onWall = false;
         }
     }
 }
