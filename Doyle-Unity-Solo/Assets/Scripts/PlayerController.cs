@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,15 +9,18 @@ public class PlayerController : MonoBehaviour
     public float Xsensitivity = 2f;
     public float Ysensitivity = 2f;
     InputAction lookVector;
-    Camera playerCamera;
+    Transform playerCamera;
     Vector2 cameraRotation;
     public float lookClamp = 90f;
     Transform camHolder;
 
+    //Respawn
+    public Vector3 respawnPoint;
 
 
     //Movement
-    public float Speed = 10f;
+    public float currentSpeed = 7.5f;
+    private float baseSpeed;
     public Rigidbody Rb;
     float verticalMove;
     float horizontalMove;
@@ -25,28 +29,37 @@ public class PlayerController : MonoBehaviour
     //Jumping
     public float jumpForce = 10f;
     private bool isGrounded;
-    private int jumpsRem;
+    public int jumpsRem;
     public int baseJumps;
 
     //Wall Ride
     public bool onWall = false;
-    public float wallDrag;
 
     void Start()
     {
+
+
         Rb = GetComponent<Rigidbody>();
+
+        //Variable set
+        jumpsRem = baseJumps;
+        baseSpeed = currentSpeed;
+        respawnPoint = new Vector3(0, 1, 0);
+        //cursor lock
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+
 
 
         //Camera
         lookVector = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
-        playerCamera = Camera.main;
+        playerCamera = transform.GetChild(0);
         cameraRotation = Vector2.zero;
         camHolder = transform.GetChild(0);
 
 
-        //Jumps
-        jumpsRem = baseJumps;
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -63,37 +76,31 @@ public class PlayerController : MonoBehaviour
     {
         //lock cursor
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+        
 
         //Go ahead and Jump
         if (Input.GetKeyDown("space"))
         {
             if (jumpsRem > 0)
             {
-                if (isGrounded || onWall)
-                {
+
+               
                     Rb.AddForce(jumpForce * transform.up * 10);
                     jumpsRem--;
-                }
+        
             }
         }
-       
 
-        //Movement
-        Vector3 temp = Rb.linearVelocity;
 
-        temp.x = verticalMove * Speed;
-        temp.z = horizontalMove * Speed;
+                //Movement
+                Vector3 temp = Rb.linearVelocity;
+
+        temp.x = verticalMove * currentSpeed;
+        temp.z = horizontalMove * currentSpeed;
 
         Rb.linearVelocity = (temp.x * transform.forward) + (temp.y * transform.up) + (temp.z * transform.right);
 
-        if (onWall == true)
-        {
-            Rb.AddForce(-wallDrag * transform.up * 5);
-        }
+      
 
         //Look at me go dad
         cameraRotation.y += lookVector.ReadValue<Vector2>().y * Ysensitivity;
@@ -101,9 +108,24 @@ public class PlayerController : MonoBehaviour
 
         cameraRotation.y = Mathf.Clamp(cameraRotation.y, -lookClamp, lookClamp);
 
-        playerCamera.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
-        transform.localRotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
+       playerCamera.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
+       transform.localRotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
 
+        //Death
+        if(transform.position.y <= -25)
+        {
+            Death();
+        }
+
+    }
+
+    private void Death()
+    {
+        transform.position = respawnPoint;
+
+        //Scene Reload Option
+            //Remove TP system
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -116,6 +138,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Wall")
         {
             onWall = true;
+            jumpsRem = baseJumps;
+
         }
     }
     private void OnCollisionExit(Collision collision)
