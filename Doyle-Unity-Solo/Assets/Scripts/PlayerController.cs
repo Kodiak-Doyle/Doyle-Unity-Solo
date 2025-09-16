@@ -5,14 +5,10 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     //Mouse Controls
-    public float Xsensitivity = 2f;
-    public float Ysensitivity = 2f;
-    InputAction lookVector;
     Camera playerCamera;
-    Vector2 cameraRotation;
-    public float lookClamp = 90f;
-    Transform camHolder;
 
+    //Respawn
+    public Vector3 respawnPoint;
 
 
     //Movement
@@ -24,25 +20,31 @@ public class PlayerController : MonoBehaviour
 
     //Jumping
     public float jumpForce = 10f;
-    private bool isGrounded;
-    private int jumpsRem;
-    public int baseJumps;
+    public int jumpsRem;
+    private int baseJumps = 2;
 
     //Wall Ride
     public bool onWall = false;
     public float wallDrag;
 
+
+
     void Start()
     {
+
+        //variable set
         Rb = GetComponent<Rigidbody>();
+        respawnPoint = new Vector3(0, 1, 0);
+        jumpsRem = baseJumps;
+        Ray rayCast = new Ray(transform.position, transform.forward);
+
+
+        //cursor lock
         Cursor.lockState = CursorLockMode.Locked;
 
 
         //Camera
-        lookVector = GetComponent<PlayerInput>().currentActionMap.FindAction("Look");
         playerCamera = Camera.main;
-        cameraRotation = Vector2.zero;
-        camHolder = transform.GetChild(0);
 
 
         //Jumps
@@ -61,6 +63,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        
+
+
         //lock cursor
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -72,12 +77,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown("space"))
         {
             if (jumpsRem > 0)
-            {
-                if (isGrounded || onWall)
-                {
+            {   
                     Rb.AddForce(jumpForce * transform.up * 10);
                     jumpsRem--;
-                }
             }
         }
        
@@ -96,21 +98,34 @@ public class PlayerController : MonoBehaviour
         }
 
         //Look at me go dad
-        cameraRotation.y += lookVector.ReadValue<Vector2>().y * Ysensitivity;
-        cameraRotation.x += lookVector.ReadValue<Vector2>().x * Xsensitivity;
 
-        cameraRotation.y = Mathf.Clamp(cameraRotation.y, -lookClamp, lookClamp);
+        Quaternion playerRotation = playerCamera.transform.rotation;
+        playerRotation.x = 0;
+        playerRotation.z = 0;
+        transform.localRotation = playerRotation;
 
-        playerCamera.transform.rotation = Quaternion.Euler(-cameraRotation.y, cameraRotation.x, 0);
-        transform.localRotation = Quaternion.AngleAxis(cameraRotation.x, Vector3.up);
+        //Death
+        if (transform.position.y <= -25)
+        {
+            Death();
+        }
 
+        //Raycasting
+    }
+
+    private void Death()
+    {
+        transform.position = respawnPoint;
+
+        //Scene Reload Option
+        //Remove TP system
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
         {
-            isGrounded = true;
             jumpsRem = baseJumps;
         }
         if (collision.gameObject.tag == "Wall")
@@ -118,14 +133,7 @@ public class PlayerController : MonoBehaviour
             onWall = true;
         }
     }
-    private void OnCollisionExit(Collision collision)
-    {
-        
-        if (collision.gameObject.tag == "Floor")
-        {
-            isGrounded = false;
-        }
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {
