@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class PlatformController : MonoBehaviour
 {
     private Vector3 Position;
     private Quaternion Rotation;
+    private Vector3 Scale;
     public GameObject Ice;
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -15,15 +16,20 @@ public class EnemyController : MonoBehaviour
         transform.GetLocalPositionAndRotation(out Vector3 localPos, out Quaternion localRot);
         Position = localPos;
         Rotation = localRot;
+
+        Scale = transform.lossyScale;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Projectile")
         {
+
+            GameObject newObject = Instantiate(Ice, Position, Rotation) as GameObject;
+            newObject.transform.localScale = Scale;
             Destroy(gameObject);
-            Instantiate(Ice, Position, Rotation);
             Destroy(collision.gameObject);
+
         }
     }
 }
