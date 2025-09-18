@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     //Respawn
     public Vector3 respawnPoint;
+
+    private bool checkpointSet = false;
 
 
     //Movement
@@ -34,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
         //variable set
         Rb = GetComponent<Rigidbody>();
-        respawnPoint = new Vector3(0, 1, 0);
+        //respawnPoint = new Vector3(0, 1, 0);
         jumpsRem = baseJumps;
         Ray rayCast = new Ray(transform.position, transform.forward);
 
@@ -115,11 +119,16 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        transform.position = respawnPoint;
+        if (checkpointSet == true)
+        {
+            transform.position = respawnPoint;
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
-        //Scene Reload Option
-        //Remove TP system
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+       
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -132,6 +141,11 @@ public class PlayerController : MonoBehaviour
         {
             onWall = true;
         }
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Death();
+        }
+
     }
 
 

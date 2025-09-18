@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 public class ShotController : MonoBehaviour
@@ -10,6 +11,11 @@ public class ShotController : MonoBehaviour
     public float shotDelay;
     private bool canShoot = true;
 
+    public Slider indicator;
+    public float FillSpeed;
+
+    public bool hardMode;
+
     void Start()
     {
         
@@ -18,11 +24,22 @@ public class ShotController : MonoBehaviour
     void Update()
     {
 
+        if(canShoot == false)
+        {
+            indicator.gameObject.SetActive(true);
+            indicator.value += FillSpeed * Time.deltaTime;
+        }
+        else
+        {
+            indicator.value = 0;
+            indicator.gameObject.SetActive(false);
+        }
+
         Pos = transform.position;
         Rot = transform.rotation;
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && hardMode != true)
         {
             if (canShoot == true)
             {
