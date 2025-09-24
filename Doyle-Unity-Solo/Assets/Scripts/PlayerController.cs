@@ -53,6 +53,10 @@ public class PlayerController : MonoBehaviour
 
         //Jumps
         jumpsRem = baseJumps;
+
+        //Checkpoint
+        transform.position = SceneMaster.active.currentCheckpoint.transform.position;
+
     }
 
     public void Move(InputAction.CallbackContext context)
