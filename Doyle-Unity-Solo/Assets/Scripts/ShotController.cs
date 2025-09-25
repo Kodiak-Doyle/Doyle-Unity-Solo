@@ -9,7 +9,9 @@ public class ShotController : MonoBehaviour
     private Vector3 Pos;
     private Quaternion Rot;
     public float shotDelay;
-    private bool canShoot = true;
+    public bool canShoot = true;
+
+    public bool isReloading = false;
 
     public Slider indicator;
     public float FillSpeed;
@@ -45,6 +47,7 @@ public class ShotController : MonoBehaviour
             {
                 Instantiate(Projectile, Pos, Rot);
                 canShoot = false;
+                isReloading = true;
                 StartCoroutine(Delay());
             }
             
@@ -54,6 +57,7 @@ public class ShotController : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(shotDelay);
+        isReloading = false;
         canShoot = true;
     }
 }

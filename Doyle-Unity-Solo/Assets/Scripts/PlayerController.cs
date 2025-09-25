@@ -74,13 +74,6 @@ public class PlayerController : MonoBehaviour
         
 
 
-        //lock cursor
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-
         //Go ahead and Jump
         if (Input.GetKeyDown("space"))
         {
