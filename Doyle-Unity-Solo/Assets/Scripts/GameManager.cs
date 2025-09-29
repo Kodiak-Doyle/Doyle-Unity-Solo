@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private GameObject pauseMenu;
     public bool isPaused = false;
 
+    public int currentLevel;
+
     private ShotController shotCon;
 
     void Start()
@@ -19,6 +21,12 @@ public class GameManager : MonoBehaviour
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
             pauseMenu.SetActive(false);
         }
+    }
+
+    private void Update()
+    {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+
     }
 
     public void Pause()
@@ -69,6 +77,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(level);
+        currentLevel = level;
     }
 
     public void MainMenu()

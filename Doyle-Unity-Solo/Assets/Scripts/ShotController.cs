@@ -18,6 +18,8 @@ public class ShotController : MonoBehaviour
 
     public bool hardMode;
 
+
+
     void Start()
     {
         

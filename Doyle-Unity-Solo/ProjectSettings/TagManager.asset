@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Pause
   - shotControl
+  - WinPlatform
   layers:
   - Default
   - TransparentFX

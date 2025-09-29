@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public bool onWall = false;
     public float wallDrag;
 
-
+    public GameManager GM;
 
     void Start()
     {
@@ -128,6 +128,7 @@ public class PlayerController : MonoBehaviour
        
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
@@ -142,6 +143,11 @@ public class PlayerController : MonoBehaviour
         {
             Death();
         }
+        if (collision.gameObject.tag == "WinPlatform")
+        {
+            GM.LoadLevel(GM.currentLevel + 1);
+        }
+
 
     }
 
