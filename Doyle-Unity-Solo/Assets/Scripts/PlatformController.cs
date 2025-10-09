@@ -18,9 +18,9 @@ public class PlatformController : MonoBehaviour
         Rotation = localRot;
 
         Scale = transform.lossyScale;
-        Scale.x *= 1;
+       /* Scale.x *= 1;
         Scale.y *= 12;
-        Scale.z *= 1;
+        Scale.z *= 1; */
     }
 
     private void OnTriggerEnter(Collider collision)
