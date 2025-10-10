@@ -4966,6 +4966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: redrockFix
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4781651f870ef914d84fde8b320d3f27, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

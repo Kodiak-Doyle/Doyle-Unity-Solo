@@ -108,13 +108,13 @@ public class PlayerController : MonoBehaviour
         //Death
         if (transform.position.y <= -25)
         {
-            Death();
+            GM.Lose();
         }
 
         //Raycasting
     }
 
-    private void Death()
+    public void Death()
     {
         if (checkpointSet == true)
         {
@@ -125,7 +125,6 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-       
     }
 
 
@@ -141,7 +140,7 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.tag == "Enemy")
         {
-            Death();
+            GM.Lose();
         }
         if (collision.gameObject.tag == "WinPlatform")
         {
