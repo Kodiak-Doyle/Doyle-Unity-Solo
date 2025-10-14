@@ -33,8 +33,10 @@ public class PlayerController : MonoBehaviour
 
     public GameManager GM;
 
+
     void Start()
     {
+
 
         //variable set
         Rb = GetComponent<Rigidbody>();

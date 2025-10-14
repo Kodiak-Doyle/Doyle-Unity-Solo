@@ -31,19 +31,14 @@ public class GameManager : MonoBehaviour
 
         CrossHair = GameObject.FindGameObjectWithTag("CrossHair");
 
-
-        LoseScreen.SetActive(false);
-
         WinScreen = GameObject.FindGameObjectWithTag("WinScreen");
+
+        pauseMenu = GameObject.FindGameObjectWithTag("Pause");
+        Debug.Log("found PAuse");
+        LoseScreen.SetActive(false);
         WinScreen.SetActive(false);
+        pauseMenu.SetActive(false);
 
-
-        //if (SceneManager.GetActiveScene().buildIndex >= 0)
-        
-            pauseMenu = GameObject.FindGameObjectWithTag("Pause");
-            pauseMenu.SetActive(false);
-        Debug.Log("Pause Disabled");
-        
     }
 
     private void Update()

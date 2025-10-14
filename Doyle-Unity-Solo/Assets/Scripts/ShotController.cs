@@ -18,11 +18,14 @@ public class ShotController : MonoBehaviour
 
     public bool hardMode;
 
+    public GameObject ShotPos;
 
+    private Animator myAnim;
 
     void Start()
     {
-        
+        myAnim = GetComponent<Animator>();
+
     }
 
     void Update()
@@ -39,7 +42,7 @@ public class ShotController : MonoBehaviour
             indicator.gameObject.SetActive(false);
         }
 
-        Pos = transform.position;
+        Pos = ShotPos.transform.position;
         Rot = transform.rotation;
 
 
@@ -51,6 +54,7 @@ public class ShotController : MonoBehaviour
                 canShoot = false;
                 isReloading = true;
                 StartCoroutine(Delay());
+                myAnim.SetBool("isAttacking", true);
             }
             
         }
@@ -61,5 +65,6 @@ public class ShotController : MonoBehaviour
         yield return new WaitForSeconds(shotDelay);
         isReloading = false;
         canShoot = true;
+        myAnim.SetBool("isAttacking", false);
     }
 }
