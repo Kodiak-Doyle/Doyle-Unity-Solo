@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     private GameObject LoseScreen;
     private bool isDead = false;
 
+    private GameObject WinScreen;
+
+    private GameObject CrossHair;
+
     public int currentLevel;
 
     private ShotController shotCon;
@@ -25,13 +29,21 @@ public class GameManager : MonoBehaviour
 
         LoseScreen = GameObject.FindGameObjectWithTag("LoseScreen");
 
+        CrossHair = GameObject.FindGameObjectWithTag("CrossHair");
+
+
         LoseScreen.SetActive(false);
 
-        if (SceneManager.GetActiveScene().buildIndex >= 0)
-        {
+        WinScreen = GameObject.FindGameObjectWithTag("WinScreen");
+        WinScreen.SetActive(false);
+
+
+        //if (SceneManager.GetActiveScene().buildIndex >= 0)
+        
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
             pauseMenu.SetActive(false);
-        }
+        Debug.Log("Pause Disabled");
+        
     }
 
     private void Update()
@@ -48,6 +60,18 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         shotCon.canShoot = false;
         isDead = true;
+        CrossHair.SetActive(false);
+    }
+
+    public void Win()
+    {
+        WinScreen.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        shotCon.canShoot = false;
+        CrossHair.SetActive(false);
+
     }
 
     public void Pause()
@@ -66,6 +90,8 @@ public class GameManager : MonoBehaviour
             {
                 shotCon.canShoot = false;
             }
+            CrossHair.SetActive(false);
+
         }
         else
         {
@@ -82,6 +108,8 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            CrossHair.SetActive(true);
+
             if (!shotCon.isReloading)
             {
                 shotCon.canShoot = true;
@@ -94,6 +122,8 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            CrossHair.SetActive(true);
+
             if (!shotCon.isReloading)
             {
                 shotCon.canShoot = true;

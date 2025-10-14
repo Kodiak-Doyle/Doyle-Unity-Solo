@@ -146,6 +146,10 @@ public class PlayerController : MonoBehaviour
         {
             GM.LoadLevel(GM.currentLevel + 1);
         }
+        if (collision.gameObject.tag == "FinalWin")
+        {
+            GM.Win();
+        }
 
 
     }

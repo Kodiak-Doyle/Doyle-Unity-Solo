@@ -12,6 +12,10 @@ TagManager:
   - shotControl
   - WinPlatform
   - LoseScreen
+  - FinalWin
+  - WinScreen
+  - CrossHair
+  - lvl2Unlock
   layers:
   - Default
   - TransparentFX
