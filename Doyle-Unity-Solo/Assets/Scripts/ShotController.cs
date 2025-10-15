@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 
 public class ShotController : MonoBehaviour
@@ -20,12 +21,14 @@ public class ShotController : MonoBehaviour
 
     public GameObject ShotPos;
 
+    private AudioSource fire;
     private Animator myAnim;
 
     void Start()
     {
         myAnim = GetComponent<Animator>();
 
+        fire = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -55,6 +58,7 @@ public class ShotController : MonoBehaviour
                 isReloading = true;
                 StartCoroutine(Delay());
                 myAnim.SetBool("isAttacking", true);
+                fire.Play();
             }
             
         }
