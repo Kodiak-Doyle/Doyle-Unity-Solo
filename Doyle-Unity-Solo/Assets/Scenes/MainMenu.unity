@@ -442,7 +442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HellRunner
+  m_text: 'Hell Runner
 
 '
   m_isRightToLeft: 0
