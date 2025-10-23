@@ -16,6 +16,7 @@ TagManager:
   - WinScreen
   - CrossHair
   - lvl2Unlock
+  - StpTxt
   layers:
   - Default
   - TransparentFX
