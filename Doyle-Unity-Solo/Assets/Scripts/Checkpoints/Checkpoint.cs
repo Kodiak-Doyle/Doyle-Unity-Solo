@@ -32,7 +32,7 @@ public class Checkpoint : MonoBehaviour
         {
             if(other.gameObject.tag == "Player")
             {
-                Debug.Log("Checkpoint hit" + gameObject.name);
+                //Debug.Log("Checkpoint hit" + gameObject.name);
                 Checkpoint.OnCheckpointHit(gameObject.name);
             }
         }

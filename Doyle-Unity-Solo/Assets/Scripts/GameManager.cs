@@ -7,12 +7,9 @@ public class GameManager : MonoBehaviour
 {
     private GameObject pauseMenu;
     public bool isPaused = false;
-
     private GameObject LoseScreen;
     private bool isDead = false;
-
     private GameObject WinScreen;
-
     private GameObject CrossHair;
 
     public int currentLevel;
@@ -23,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+
         Pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         shotCon = GameObject.FindGameObjectWithTag("shotControl").GetComponent<ShotController>();
@@ -34,17 +33,25 @@ public class GameManager : MonoBehaviour
         WinScreen = GameObject.FindGameObjectWithTag("WinScreen");
 
         pauseMenu = GameObject.FindGameObjectWithTag("Pause");
-        Debug.Log("found PAuse");
+        //Debug.Log("found PAuse");
         LoseScreen.SetActive(false);
         WinScreen.SetActive(false);
         pauseMenu.SetActive(false);
+
+        if (currentLevel == 0)
+        {
+            Time.timeScale = 0;
+        }
+        if (currentLevel != 0)
+        {
+            Time.timeScale = 1;
+        }
 
     }
 
     private void Update()
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
-
     }
 
     public void Lose()
@@ -143,4 +150,5 @@ public class GameManager : MonoBehaviour
     {
         LoadLevel(0);
     }
+
 }

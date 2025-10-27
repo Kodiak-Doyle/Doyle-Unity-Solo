@@ -2989,7 +2989,7 @@ RectTransform:
   - {fileID: 1817015487}
   - {fileID: 2118120501}
   - {fileID: 1796607699}
-  m_Father: {fileID: 852182559}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6046,8 +6046,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 391484636}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &887780562
@@ -13191,11 +13190,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 391484636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -852, y: 473.00006}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1796607700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15952,6 +15951,7 @@ MonoBehaviour:
   isRunning: 0
   elapsedTime: 0
   TextFound: 0
+  forceUpdateTimer: 0
 --- !u!4 &2105995831
 Transform:
   m_ObjectHideFlags: 0
@@ -19316,6 +19316,7 @@ SceneRoots:
   - {fileID: 594473175}
   - {fileID: 2070751690}
   - {fileID: 613375969}
+  - {fileID: 391484636}
   - {fileID: 852182559}
   - {fileID: 1271032458}
   - {fileID: 64190568}
