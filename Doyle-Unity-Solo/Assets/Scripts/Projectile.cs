@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     public float speed;
     public float lifetime;
     bool HasShot;
+    public GameObject particles;
+   // private Vector3 Position;
 
     void Start()
     {
@@ -17,8 +19,8 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-
-        if(HasShot == false)
+        //Position = transform.position;
+        if (HasShot == false)
         {
             Rb.AddForce(speed * transform.up * 10);
             HasShot = true;
@@ -32,6 +34,7 @@ public class Projectile : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        Instantiate(particles, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

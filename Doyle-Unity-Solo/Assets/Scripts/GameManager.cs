@@ -15,24 +15,24 @@ public class GameManager : MonoBehaviour
     public int currentLevel;
 
     private ShotController shotCon;
-
     private PlayerController Pc;
+    public Stopwatch stopwatch;
+    private SceneMaster SM;
+
 
     void Start()
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
 
         Pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
         shotCon = GameObject.FindGameObjectWithTag("shotControl").GetComponent<ShotController>();
-
         LoseScreen = GameObject.FindGameObjectWithTag("LoseScreen");
-
         CrossHair = GameObject.FindGameObjectWithTag("CrossHair");
-
         WinScreen = GameObject.FindGameObjectWithTag("WinScreen");
-
         pauseMenu = GameObject.FindGameObjectWithTag("Pause");
+        stopwatch = GameObject.FindGameObjectWithTag("Stopwatch").GetComponent<Stopwatch>();
+        SM = GameObject.FindGameObjectWithTag("SceneMaster").GetComponent<SceneMaster>();
+
         //Debug.Log("found PAuse");
         LoseScreen.SetActive(false);
         WinScreen.SetActive(false);
@@ -132,6 +132,20 @@ public class GameManager : MonoBehaviour
             }
             Pc.Death();
         }
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(currentLevel);
+    }
+
+    public void FullRestart()
+    {
+        SM.fullReset();
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+        stopwatch.ResetStopwatch();
     }
 
     public void QuitGame()

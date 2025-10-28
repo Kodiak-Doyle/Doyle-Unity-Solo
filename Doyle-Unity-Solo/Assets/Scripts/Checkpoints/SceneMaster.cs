@@ -9,6 +9,7 @@ public class SceneMaster : MonoBehaviour
     public static SceneMaster active;
     public Checkpoint currentCheckpoint;
     private string levelID;
+    private Checkpoint Spawn;
 
     private void Awake()
     {
@@ -33,9 +34,14 @@ public class SceneMaster : MonoBehaviour
             DontDestroyOnLoad(this);
         }
     }
+    public void fullReset()
+    {
+        currentCheckpoint = Spawn;
+    }
+
     void Start()
     {
-        
+        Spawn = GameObject.FindGameObjectWithTag("Spawn").GetComponent<Checkpoint>();
     }
 
     void Update()

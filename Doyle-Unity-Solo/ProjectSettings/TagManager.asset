@@ -17,6 +17,9 @@ TagManager:
   - CrossHair
   - lvl2Unlock
   - StpTxt
+  - Stopwatch
+  - Spawn
+  - SceneMaster
   layers:
   - Default
   - TransparentFX
