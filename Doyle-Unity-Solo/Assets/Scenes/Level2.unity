@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 55653411}
   m_Layer: 0
   m_Name: SceneMaster
-  m_TagString: Untagged
+  m_TagString: SceneMaster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1671,6 +1671,7 @@ MonoBehaviour:
   isPaused: 0
   currentLevel: 0
   stopwatch: {fileID: 0}
+  SM: {fileID: 0}
 --- !u!4 &105069043
 Transform:
   m_ObjectHideFlags: 0

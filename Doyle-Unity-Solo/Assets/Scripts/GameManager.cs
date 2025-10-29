@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private ShotController shotCon;
     private PlayerController Pc;
     public Stopwatch stopwatch;
-    private SceneMaster SM;
+    public SceneMaster SM;
 
 
     void Start()

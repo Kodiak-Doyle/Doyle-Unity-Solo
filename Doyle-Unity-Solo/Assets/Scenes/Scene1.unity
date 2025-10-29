@@ -4805,6 +4805,7 @@ MonoBehaviour:
   isPaused: 0
   currentLevel: 0
   stopwatch: {fileID: 0}
+  SM: {fileID: 0}
 --- !u!4 &644968854
 Transform:
   m_ObjectHideFlags: 0
